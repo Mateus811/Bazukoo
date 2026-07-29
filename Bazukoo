@@ -1,3 +1,6 @@
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
 local senhaCorreta = "XD"
 local senhaConfirmada = false
 
@@ -52,10 +55,9 @@ repeat
 	task.wait()
 until senhaConfirmada
 
+print("Senha correta! Executando o resto do script...")
 
--- ==================================
--- RESTO DO SEU SCRIPT AQUI
--- ==================================
+-- Seu código continua normalmente aqui
 
 print("Senha correta! Executando o resto do script...")
 
