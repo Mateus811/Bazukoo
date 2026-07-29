@@ -1,3 +1,66 @@
+local senhaCorreta = "XD"
+local senhaConfirmada = false
+
+local gui = Instance.new("ScreenGui")
+gui.Parent = player:WaitForChild("PlayerGui")
+
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 350, 0, 220)
+frame.Position = UDim2.new(0.5, -175, 0.5, -110)
+frame.Parent = gui
+
+local titulo = Instance.new("TextLabel")
+titulo.Size = UDim2.new(1, -50, 0, 50)
+titulo.Position = UDim2.new(0, 15, 0, 10)
+titulo.Text = "Coloque a senha"
+titulo.TextScaled = true
+titulo.Parent = frame
+
+local fechar = Instance.new("TextButton")
+fechar.Size = UDim2.new(0, 40, 0, 40)
+fechar.Position = UDim2.new(1, -45, 0, 5)
+fechar.Text = "X"
+fechar.Parent = frame
+
+local caixa = Instance.new("TextBox")
+caixa.Size = UDim2.new(1, -40, 0, 45)
+caixa.Position = UDim2.new(0, 20, 0, 75)
+caixa.PlaceholderText = "Digite a senha..."
+caixa.Parent = frame
+
+local confirmar = Instance.new("TextButton")
+confirmar.Size = UDim2.new(1, -40, 0, 45)
+confirmar.Position = UDim2.new(0, 20, 0, 135)
+confirmar.Text = "Confirmar"
+confirmar.Parent = frame
+
+fechar.MouseButton1Click:Connect(function()
+	gui:Destroy()
+	player:Kick("peça a senha pro mateus!")
+end)
+
+confirmar.MouseButton1Click:Connect(function()
+	if caixa.Text == senhaCorreta then
+		senhaConfirmada = true
+		gui:Destroy()
+	else
+		player:Kick("senha errada, peça a senha pro Mateus")
+	end
+end)
+
+repeat
+	task.wait()
+until senhaConfirmada
+
+
+-- ==================================
+-- RESTO DO SEU SCRIPT AQUI
+-- ==================================
+
+print("Senha correta! Executando o resto do script...")
+
+-- Seu código continua normalmente aqui
+
 repeat
     task.wait()
 until game:IsLoaded()
