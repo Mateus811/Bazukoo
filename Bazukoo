@@ -665,7 +665,7 @@ do
     local NinjaAirLock = false
 
     local function getTool(char)
-        return char:FindFirstChild("FakeBomb") or LocalPlayer.Backpack:FindFirstChild("FakeBomb")
+        return char:FindFirstChild("GoldBomb") or LocalPlayer.Backpack:FindFirstChild("GoldBomb")
     end
 
     local function dropBombAndBounce(char)
