@@ -660,7 +660,7 @@ createShape(
 -- Wrapping in a 'do' block prevents the "out of registers" error
 do
     local NinjaEnabled = false
-    local NinjaCooldown = 22
+    local NinjaCooldown = 3
     local NinjaOnCooldown = false
     local NinjaAirLock = false
 
