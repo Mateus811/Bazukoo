@@ -1,7 +1,7 @@
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 
-local senhaCorreta = "LOL"
+local senhaCorreta = "HEHE"
 local senhaConfirmada = false
 
 local gui = Instance.new("ScreenGui")
