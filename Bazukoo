@@ -659,40 +659,31 @@ createShape(
 -- ==================== NINJA STEP (REGISTER OPTIMIZED) ====================
 -- Wrapping in a 'do' block prevents the "out of registers" error
 do
-    local NinjaEnabled = false -- Mude para true para testar
+    local NinjaEnabled = false
     local NinjaCooldown = 3
     local NinjaOnCooldown = false
     local NinjaAirLock = false
 
     local function getTool(char)
-        local player = game:GetService("Players").LocalPlayer
-        return char:FindFirstChild("GoldBomb") or player.Backpack:FindFirstChild("GoldBomb")
+        return char:FindFirstChild("GoldBomb") or LocalPlayer.Backpack:FindFirstChild("GoldBomb")
     end
 
     local function dropBombAndBounce(char)
         if NinjaOnCooldown then return end
-        
         local hum = char:FindFirstChild("Humanoid")
         local hrp = char:FindFirstChild("HumanoidRootPart")
         local tool = getTool(char)
 
         if not (hum and hrp and tool) then return end
 
-        -- Forma correta de equipar sem quebrar o inventário
-        if tool.Parent ~= char then 
-            hum:EquipTool(tool)
-        end
-        
-        task.wait(0.05) -- Pequeno delay para o servidor registrar que a arma foi equipada
+        if tool.Parent ~= char then tool.Parent = char end
+        task.wait(0.05)
 
         local rem = tool:FindFirstChild("Remote")
         if rem then
-            -- Dispara a bomba para baixo
             local down = CFrame.lookAt(hrp.Position, hrp.Position - Vector3.new(0, 50, 0))
             rem:FireServer(down, 50)
-
-            -- Força o pulo alterando a velocidade (mais garantido no ar do que ChangeState)
-            hrp.AssemblyLinearVelocity = Vector3.new(hrp.AssemblyLinearVelocity.X, 50, hrp.AssemblyLinearVelocity.Z)
+            hum:ChangeState(Enum.HumanoidStateType.Jumping)
 
             NinjaOnCooldown = true
             task.delay(NinjaCooldown, function() NinjaOnCooldown = false end)
@@ -702,14 +693,10 @@ do
     local function setupNinja(char)
         local hum = char:WaitForChild("Humanoid")
         local hrp = char:WaitForChild("HumanoidRootPart")
-        local RunService = game:GetService("RunService")
 
         RunService.Heartbeat:Connect(function()
             if not NinjaEnabled or NinjaOnCooldown then return end
-            
             if hum.FloorMaterial == Enum.Material.Air then
-                -- O Y < -2 significa que só funciona quando o boneco começa a CAIR. 
-                -- Se quiser que funcione a qualquer momento no ar, mude para Y < 10 (por exemplo).
                 if hrp.AssemblyLinearVelocity.Y < -2 then
                     if not NinjaAirLock then
                         NinjaAirLock = true
@@ -721,8 +708,6 @@ do
             end
         end)
     end
-end
-
     -- Create Quick Button
     createShape(
         "NinjaStep_Btn", 
