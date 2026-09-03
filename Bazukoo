@@ -660,12 +660,12 @@ createShape(
 -- Wrapping in a 'do' block prevents the "out of registers" error
 do
     local NinjaEnabled = false
-    local NinjaCooldown = 3
+    local NinjaCooldown = 22
     local NinjaOnCooldown = false
     local NinjaAirLock = false
 
     local function getTool(char)
-        return char:FindFirstChild("GoldBomb") or LocalPlayer.Backpack:FindFirstChild("GoldBomb")
+        return char:FindFirstChild("FakeBomb") or LocalPlayer.Backpack:FindFirstChild("FakeBomb")
     end
 
     local function dropBombAndBounce(char)
@@ -684,7 +684,7 @@ do
             local down = CFrame.lookAt(hrp.Position, hrp.Position - Vector3.new(0, 50, 0))
             rem:FireServer(down, 50)
             hum:ChangeState(Enum.HumanoidStateType.Jumping)
-
+            
             NinjaOnCooldown = true
             task.delay(NinjaCooldown, function() NinjaOnCooldown = false end)
         end
@@ -708,6 +708,11 @@ do
             end
         end)
     end
+
+    -- Character Init
+    if LocalPlayer.Character then task.spawn(setupNinja, LocalPlayer.Character) end
+    LocalPlayer.CharacterAdded:Connect(function(c) task.spawn(setupNinja, c) end)
+
     -- Create Quick Button
     createShape(
         "NinjaStep_Btn", 
