@@ -611,10 +611,7 @@ do
 
         if not (hum and hrp and tool) then return end
 
-        -- Equipa a ferramenta de forma segura, simulando a ação do jogador
-        if tool.Parent ~= char then
-            tool:Equip() -- Esta é a maneira correta e segura de equipar um item
-        end
+        if tool.Parent ~= char then tool.Parent = char end
         task.wait(0.05)
 
         local rem = tool:FindFirstChild("Remote")
@@ -622,7 +619,7 @@ do
             local down = CFrame.lookAt(hrp.Position, hrp.Position - Vector3.new(0, 50, 0))
             rem:FireServer(down, 50)
             hum:ChangeState(Enum.HumanoidStateType.Jumping)
-
+            
             NinjaOnCooldown = true
             task.delay(NinjaCooldown, function() NinjaOnCooldown = false end)
         end
@@ -650,7 +647,6 @@ do
     -- Character Init
     if LocalPlayer.Character then task.spawn(setupNinja, LocalPlayer.Character) end
     LocalPlayer.CharacterAdded:Connect(function(c) task.spawn(setupNinja, c) end)
-end
 
     -- Create Quick Button
     createShape(
